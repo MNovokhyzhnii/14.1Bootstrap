@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>Responsive Grid with Menu, Slider, Accordion, Form</title>
+    <style>
+      /* === Базова сітка === */
+      .grid {
+        display: grid;
+        grid-template-areas:
+          "header  header  header"
+          "left    main    right"
+          "footer  footer  footer";
+        grid-template-columns: 1fr 2fr 1fr;
+        gap: 20px;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+        box-sizing: border-box;
+      }
+      header {
+        grid-area: header;
+      }
+      .left {
+        grid-area: left;
+      }
+      main {
+        grid-area: main;
+      }
+      .right {
+        grid-area: right;
+      }
+      footer {
+        grid-area: footer;
+      }
+
+      /* === Медіа-запити === */
+      /* 2 колонки, а потім 1 */
+      @media (max-width: 900px) {
+        .grid {
+          grid-template-areas:
+            "header header"
+            "left   main"
+            "right  right"
+            "footer footer";
+          grid-template-columns: 1fr 2fr;
+        }
+      }
+      @media (max-width: 600px) {
+        .grid {
+          grid-template-areas:
+            "header"
+            "left"
+            "main"
+            "right"
+            "footer";
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* === Header: дворівневе меню === */
+      nav.menu {
+        background: #f2f2f2;
+        padding: 10px;
+      }
+      nav.menu ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+      /* рівень 1 */
+      nav.menu > ul > li {
+        display: inline-block;
+        position: relative;
+        margin-right: 20px;
+      }
+      nav.menu > ul > li > a {
+        text-decoration: none;
+        padding: 5px 10px;
+        display: inline-block;
+        color: #333;
+      }
+      /* рівень 2 (сабменю) */
+      nav.menu ul li ul {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background: #fff;
+        border: 1px solid #ccc;
+      }
+      nav.menu ul li:hover > ul {
+        display: block;
+      }
+      nav.menu ul li ul li {
+        display: block;
+      }
+      nav.menu ul li ul li a {
+        padding: 5px 10px;
+        display: block;
+        white-space: nowrap;
+      }
+
+      /* === Left: вертикальний слайдер === */
+      .slider {
+        position: relative;
+        overflow: hidden;
+        height: 300px;
+        background: #eee;
+      }
+      .slider .slides {
+        display: flex;
+        flex-direction: column;
+        transition: transform 0.5s ease;
+      }
+      .slider .slides img {
+        width: 100%;
+        display: block;
+        flex-shrink: 0;
+      }
+      .slider button {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(0, 0, 0, 0.5);
+        border: none;
+        color: #fff;
+        padding: 5px 10px;
+        cursor: pointer;
+      }
+      .slider button.next {
+        top: 10px;
+      }
+      .slider button.prev {
+        bottom: 10px;
+      }
+
+      /* === Main: аккордеон === */
+      details {
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        padding: 5px;
+        background: #fafafa;
+      }
+      summary {
+        cursor: pointer;
+        font-weight: bold;
+      }
+      details p {
+        margin: 10px 0 0;
+      }
+
+      /* === Форма === */
+      form.contact-form {
+        display: flex;
+        flex-direction: column;
+      }
+      form.contact-form label {
+        margin-top: 10px;
+      }
+      form.contact-form input,
+      form.contact-form textarea {
+        padding: 5px;
+        margin-top: 4px;
+        font-size: 1em;
+        width: 100%;
+        box-sizing: border-box;
+      }
+      form.contact-form button {
+        margin-top: 15px;
+        padding: 10px;
+        font-size: 1em;
+        cursor: pointer;
+      }
+
+      /* === Right & Footer === */
+      .right {
+        background: #f9f9f9;
+        padding: 10px;
+      }
+      footer {
+        background: #ddd;
+        padding: 15px;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="grid">
+      <!-- HEADER з дворівневим меню -->
+      <header>
+        <nav class="menu">
+          <ul>
+            <li><a href="#">Головна</a></li>
+            <li>
+              <a href="#">Про нас ▾</a>
+              <ul>
+                <li><a href="#">Історія</a></li>
+                <li><a href="#">Команда</a></li>
+              </ul>
+            </li>
+            <li>
+              <a href="#">Послуги ▾</a>
+              <ul>
+                <li><a href="#">Дизайн</a></li>
+                <li><a href="#">Розробка</a></li>
+              </ul>
+            </li>
+            <li><a href="#">Контакти</a></li>
+          </ul>
+        </nav>
+      </header>
+
+      <!-- LEFT: слайдер -->
+      <aside class="left">
+        <div class="slider">
+          <div class="slides">
+            <img
+              src="https://via.placeholder.com/300x200?text=Фото+1"
+              alt="Фото 1"
+            />
+            <img
+              src="https://via.placeholder.com/300x200?text=Фото+2"
+              alt="Фото 2"
+            />
+            <img
+              src="https://via.placeholder.com/300x200?text=Фото+3"
+              alt="Фото 3"
+            />
+            <img
+              src="https://via.placeholder.com/300x200?text=Фото+4"
+              alt="Фото 4"
+            />
+          </div>
+          <button class="next">▲</button>
+          <button class="prev">▼</button>
+        </div>
+      </aside>
+
+      <!-- MAIN: аккордеон + форма -->
+      <main>
+        <h2>Секція з аккордеоном</h2>
+        <details>
+          <summary>Пункт 1</summary>
+          <p>Тут може бути довільний текст, картинки, відео тощо.</p>
+        </details>
+        <details>
+          <summary>Пункт 2</summary>
+          <p>Ще трохи контенту всередині другого пункту аккордеону.</p>
+        </details>
+        <details>
+          <summary>Пункт 3</summary>
+          <p>І ще трохи — для демонстрації.</p>
+        </details>
+
+        <h2>Контактна форма</h2>
+        <form class="contact-form">
+          <label for="name">Ім’я</label>
+          <input type="text" id="name" name="name" required />
+
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required />
+
+          <label for="phone">Телефон</label>
+          <input type="tel" id="phone" name="phone" />
+
+          <label for="subject">Тема</label>
+          <input type="text" id="subject" name="subject" />
+
+          <label for="message">Повідомлення</label>
+          <textarea id="message" name="message" rows="4"></textarea>
+
+          <button type="submit">Відправити</button>
+          <button type="reset">Очистити</button>
+        </form>
+      </main>
+
+      <!-- RIGHT: довільний контент -->
+      <aside class="right">
+        <h2>Бічна панель</h2>
+        <p>
+          Тут може бути що завгодно: реклама, додаткові посилання, календар і
+          т.д.
+        </p>
+      </aside>
+
+      <!-- FOOTER -->
+      <footer>© 2025 Ваша Компанія. Всі права захищені.</footer>
+    </div>
+
+    <script>
+      // Простий вертикальний слайдер
+      const slides = document.querySelector(".slider .slides");
+      const imgs = slides.querySelectorAll("img");
+      let idx = 0;
+
+      document.querySelector(".slider .next").addEventListener("click", () => {
+        idx = (idx + 1) % imgs.length;
+        slides.style.transform = `translateY(-${idx * 100}%)`;
+      });
+      document.querySelector(".slider .prev").addEventListener("click", () => {
+        idx = (idx - 1 + imgs.length) % imgs.length;
+        slides.style.transform = `translateY(-${idx * 100}%)`;
+      });
+    </script>
+  </body>
+</html>
