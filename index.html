@@ -2,10 +2,15 @@
 <html lang="uk">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-    <title>Responsive Grid with Menu, Slider, Accordion, Form</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Сітка з меню, слайдером, акордеоном та формою</title>
     <style>
-      /* === Базова сітка === */
+      :root {
+        font-family: "Segoe UI", Arial, sans-serif;
+        color: #222;
+        background: #f7f7f7;
+      }
+      /* === Головна сітка === */
       .grid {
         display: grid;
         grid-template-areas:
@@ -35,8 +40,7 @@
         grid-area: footer;
       }
 
-      /* === Медіа-запити === */
-      /* 2 колонки, а потім 1 */
+      /* === Адаптивність === */
       @media (max-width: 900px) {
         .grid {
           grid-template-areas:
@@ -57,19 +61,24 @@
             "footer";
           grid-template-columns: 1fr;
         }
+        nav.menu > ul > li {
+          display: block;
+          margin-right: 0;
+        }
       }
 
-      /* === Header: дворівневе меню === */
+      /* === Header: меню з підпунктами === */
       nav.menu {
-        background: #f2f2f2;
+        background: #ffffff;
         padding: 10px;
+        border: 1px solid #e0e0e0;
+        border-radius: 6px;
       }
       nav.menu ul {
         list-style: none;
         margin: 0;
         padding: 0;
       }
-      /* рівень 1 */
       nav.menu > ul > li {
         display: inline-block;
         position: relative;
@@ -77,11 +86,10 @@
       }
       nav.menu > ul > li > a {
         text-decoration: none;
-        padding: 5px 10px;
+        padding: 6px 12px;
         display: inline-block;
         color: #333;
       }
-      /* рівень 2 (сабменю) */
       nav.menu ul li ul {
         display: none;
         position: absolute;
@@ -89,6 +97,9 @@
         left: 0;
         background: #fff;
         border: 1px solid #ccc;
+        border-radius: 4px;
+        min-width: 150px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
       }
       nav.menu ul li:hover > ul {
         display: block;
@@ -97,17 +108,22 @@
         display: block;
       }
       nav.menu ul li ul li a {
-        padding: 5px 10px;
+        padding: 6px 12px;
         display: block;
         white-space: nowrap;
       }
+      nav.menu a:focus {
+        outline: 2px solid #4a90e2;
+        outline-offset: 2px;
+      }
 
-      /* === Left: вертикальний слайдер === */
+      /* === Left: слайдер === */
       .slider {
         position: relative;
         overflow: hidden;
         height: 300px;
         background: #eee;
+        border-radius: 8px;
       }
       .slider .slides {
         display: flex;
@@ -116,6 +132,8 @@
       }
       .slider .slides img {
         width: 100%;
+        height: 300px;
+        object-fit: cover;
         display: block;
         flex-shrink: 0;
       }
@@ -123,11 +141,12 @@
         position: absolute;
         left: 50%;
         transform: translateX(-50%);
-        background: rgba(0, 0, 0, 0.5);
+        background: rgba(0, 0, 0, 0.55);
         border: none;
         color: #fff;
-        padding: 5px 10px;
+        padding: 8px 12px;
         cursor: pointer;
+        border-radius: 4px;
       }
       .slider button.next {
         top: 10px;
@@ -135,77 +154,98 @@
       .slider button.prev {
         bottom: 10px;
       }
+      .slider button:focus-visible {
+        outline: 2px solid #4a90e2;
+        outline-offset: 2px;
+      }
 
-      /* === Main: аккордеон === */
+      /* === Main: акордеон === */
       details {
-        margin-bottom: 10px;
+        margin-bottom: 12px;
         border: 1px solid #ccc;
-        border-radius: 4px;
-        padding: 5px;
+        border-radius: 6px;
+        padding: 8px;
         background: #fafafa;
       }
       summary {
         cursor: pointer;
-        font-weight: bold;
+        font-weight: 600;
       }
       details p {
         margin: 10px 0 0;
+        line-height: 1.5;
       }
 
       /* === Форма === */
       form.contact-form {
         display: flex;
         flex-direction: column;
+        gap: 6px;
       }
       form.contact-form label {
         margin-top: 10px;
+        font-weight: 600;
       }
       form.contact-form input,
       form.contact-form textarea {
-        padding: 5px;
-        margin-top: 4px;
+        padding: 8px;
         font-size: 1em;
         width: 100%;
         box-sizing: border-box;
+        border: 1px solid #ccc;
+        border-radius: 4px;
       }
       form.contact-form button {
-        margin-top: 15px;
+        margin-top: 12px;
         padding: 10px;
         font-size: 1em;
         cursor: pointer;
+        border: none;
+        border-radius: 4px;
+      }
+      form.contact-form button[type="submit"] {
+        background: #4a90e2;
+        color: #fff;
+      }
+      form.contact-form button[type="reset"] {
+        background: #e0e0e0;
       }
 
       /* === Right & Footer === */
       .right {
         background: #f9f9f9;
-        padding: 10px;
+        padding: 12px;
+        border: 1px solid #e0e0e0;
+        border-radius: 6px;
+        line-height: 1.5;
       }
       footer {
         background: #ddd;
         padding: 15px;
         text-align: center;
+        border-radius: 6px;
       }
     </style>
   </head>
   <body>
     <div class="grid">
-      <!-- HEADER з дворівневим меню -->
+      <!-- HEADER -->
       <header>
-        <nav class="menu">
+        <nav class="menu" aria-label="Головне меню">
           <ul>
             <li><a href="#">Головна</a></li>
             <li>
-              <a href="#">Про нас ▾</a>
-              <ul>
-                <li><a href="#">Історія</a></li>
-                <li><a href="#">Команда</a></li>
-              </ul>
-            </li>
-            <li>
-              <a href="#">Послуги ▾</a>
+              <a href="#">Послуги</a>
               <ul>
                 <li><a href="#">Дизайн</a></li>
                 <li><a href="#">Розробка</a></li>
+              </ul>
+            </li>
+            <li>
+              <a href="#">Інформація</a>
+              <ul>
+                <li><a href="#">Блог</a></li>
+                <li><a href="#">FAQ</a></li>
               </ul>
             </li>
             <li><a href="#">Контакти</a></li>
@@ -213,51 +253,64 @@
         </nav>
       </header>
 
-      <!-- LEFT: слайдер -->
+      <!-- LEFT: Слайдер -->
       <aside class="left">
-        <div class="slider">
+        <div class="slider" aria-label="Галерея">
           <div class="slides">
             <img
-              src="https://via.placeholder.com/300x200?text=Фото+1"
-              alt="Фото 1"
+              src="https://via.placeholder.com/300x200?text=Слайд+1"
+              alt="Слайд 1"
             />
             <img
-              src="https://via.placeholder.com/300x200?text=Фото+2"
-              alt="Фото 2"
+              src="https://via.placeholder.com/300x200?text=Слайд+2"
+              alt="Слайд 2"
             />
             <img
-              src="https://via.placeholder.com/300x200?text=Фото+3"
-              alt="Фото 3"
+              src="https://via.placeholder.com/300x200?text=Слайд+3"
+              alt="Слайд 3"
             />
             <img
-              src="https://via.placeholder.com/300x200?text=Фото+4"
-              alt="Фото 4"
+              src="https://via.placeholder.com/300x200?text=Слайд+4"
+              alt="Слайд 4"
             />
           </div>
-          <button class="next">▲</button>
-          <button class="prev">▼</button>
+          <button class="next" type="button" aria-label="Наступний слайд">
+            Вгору
+          </button>
+          <button class="prev" type="button" aria-label="Попередній слайд">
+            Вниз
+          </button>
         </div>
       </aside>
 
-      <!-- MAIN: аккордеон + форма -->
+      <!-- MAIN: Акордеон + форма -->
       <main>
-        <h2>Секція з аккордеоном</h2>
+        <h2>Демонстрація сітки та компонентів</h2>
         <details>
-          <summary>Пункт 1</summary>
-          <p>Тут може бути довільний текст, картинки, відео тощо.</p>
+          <summary>Розділ 1</summary>
+          <p>
+            Це приклад тексту в акордеоні. Тут можна розміщувати будь-яку
+            довільну інформацію та пояснення.
+          </p>
         </details>
         <details>
-          <summary>Пункт 2</summary>
-          <p>Ще трохи контенту всередині другого пункту аккордеону.</p>
+          <summary>Розділ 2</summary>
+          <p>
+            Другий пункт демонструє, що акордеон підтримує декілька блоків і
+            працює за замовчуванням нативними тегами.
+          </p>
         </details>
         <details>
-          <summary>Пункт 3</summary>
-          <p>І ще трохи — для демонстрації.</p>
+          <summary>Розділ 3</summary>
+          <p>
+            Третій блок підкреслює простоту та доступність розмітки без
+            сторонніх бібліотек.
+          </p>
         </details>
 
-        <h2>Контактна форма</h2>
+        <h2>Зворотній зв'язок</h2>
         <form class="contact-form">
-          <label for="name">Ім’я</label>
+          <label for="name">Ім'я</label>
           <input type="text" id="name" name="name" required />
 
           <label for="email">Email</label>
@@ -272,38 +325,47 @@
           <label for="message">Повідомлення</label>
           <textarea id="message" name="message" rows="4"></textarea>
 
-          <button type="submit">Відправити</button>
+          <button type="submit">Надіслати</button>
           <button type="reset">Очистити</button>
         </form>
       </main>
 
-      <!-- RIGHT: довільний контент -->
+      <!-- RIGHT: інформація -->
       <aside class="right">
-        <h2>Бічна панель</h2>
+        <h2>Корисна інформація</h2>
         <p>
-          Тут може бути що завгодно: реклама, додаткові посилання, календар і
-          т.д.
+          Тут можна розмістити новини, нагадування чи контакти. Блок адаптується
+          під ширину екрану та залишається читабельним на мобільних пристроях.
         </p>
       </aside>
 
       <!-- FOOTER -->
-      <footer>© 2025 Ваша Компанія. Всі права захищені.</footer>
+      <footer>© 2025 Демонстраційний макет. Усі права захищені.</footer>
     </div>
 
     <script>
       // Простий вертикальний слайдер
-      const slides = document.querySelector(".slider .slides");
-      const imgs = slides.querySelectorAll("img");
+      const slider = document.querySelector(".slider");
+      const slidesContainer = slider.querySelector(".slides");
+      const slideImages = slidesContainer.querySelectorAll("img");
       let idx = 0;
 
+      function updateSlide() {
+        const slideHeight = slider.clientHeight;
+        slidesContainer.style.transform = `translateY(-${idx * slideHeight}px)`;
+      }
+
       document.querySelector(".slider .next").addEventListener("click", () => {
-        idx = (idx + 1) % imgs.length;
-        slides.style.transform = `translateY(-${idx * 100}%)`;
+        idx = (idx + 1) % slideImages.length;
+        updateSlide();
       });
       document.querySelector(".slider .prev").addEventListener("click", () => {
-        idx = (idx - 1 + imgs.length) % imgs.length;
-        slides.style.transform = `translateY(-${idx * 100}%)`;
+        idx = (idx - 1 + slideImages.length) % slideImages.length;
+        updateSlide();
       });
+
+      window.addEventListener("resize", updateSlide);
+      updateSlide();
     </script>
   </body>
 </html>
